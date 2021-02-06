@@ -1,8 +1,17 @@
 import requests
 import pandas as pd
 from flask import Flask
+from faker import Faker
+import string
+import random
 
 app = Flask(__name__)
+
+
+def generate_str():
+    letters = string.ascii_lowercase
+    random_string = ''.join(random.choice(letters) for _ in range(8))
+    return random_string
 
 
 @app.route('/')
@@ -18,8 +27,14 @@ def returning_content():
 
 
 @app.route('/generate-users/')
-def user_generation():
-    return 'Hello, World!'
+def generate_users():
+    fake_names = []
+    fake = Faker()
+    for _ in range(100):
+        fake_names.append(fake.name())
+    users_list = [f'{"_".join(name.split(" "))} {generate_str()}@gmail.com' for name in fake_names]
+    users = ';'.join(users_list)
+    return users
 
 
 @app.route('/mean/')
