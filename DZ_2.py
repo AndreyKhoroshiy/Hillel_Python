@@ -1,4 +1,5 @@
 import requests
+import pandas as pd
 from flask import Flask
 
 app = Flask(__name__)
@@ -23,7 +24,13 @@ def user_generation():
 
 @app.route('/mean/')
 def average_indicators():
-    return 'Hello, World!'
+    data = pd.read_csv('hw.csv', index_col='Index')
+    data.rename(columns={' "Height(Inches)"': 'Height', ' "Weight(Pounds)"': 'Weight'}, inplace=True)
+    average_height_inches = data.Height.mean()
+    average_weight_pounds = data.Weight.mean()
+    average_height_sm = average_height_inches * 2.54
+    average_weight_kg = average_weight_pounds * 0.453592
+    return f"Средний рост в см  {average_height_sm}. Средний вес в кг {average_weight_kg}."
 
 
 @app.route('/space/')
