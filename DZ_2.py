@@ -1,3 +1,4 @@
+import requests
 from flask import Flask
 
 app = Flask(__name__)
@@ -27,7 +28,10 @@ def average_indicators():
 
 @app.route('/space/')
 def number_of_astronauts():
-    return 'Hello, World!'
+    r = requests.get('http://api.open-notify.org/astros.json')
+    astronauts = r.json()
+    numbers_of_astronauts = astronauts.get('number')
+    return str(numbers_of_astronauts)
 
 
 if __name__ == '__main__':
