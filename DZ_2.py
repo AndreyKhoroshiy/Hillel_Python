@@ -21,8 +21,8 @@ def start():
 
 @app.route('/requirements/')
 def returning_content():
-    file = open('requirements.txt', 'r')
-    data = file.read()
+    with open('requirements.txt', 'r') as file:
+        data = file.read()
     return data
 
 
